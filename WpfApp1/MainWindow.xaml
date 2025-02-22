@@ -12,7 +12,6 @@
     ExtendsContentIntoTitleBar="True"
     mc:Ignorable="d">
     <ui:FluentWindow.Resources>
-        <!--  Получаем все значения перечисления ControlAppearance  -->
         <ObjectDataProvider
             x:Key="ControlAppearanceValues"
             MethodName="GetValues"
@@ -22,7 +21,6 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </ui:FluentWindow.Resources>
-    <!--  Корневой контейнер, состоящий из основного контента и диалог-хоста  -->
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -75,45 +73,91 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Button Click="Button_Click" Content="Show Dialog" />
                     </StackPanel>
 
-                    <StackPanel
-                        Grid.Row="1"
-                        Margin="50,0,50,0"
-                        local:SpacingHelper.Spacing="10">
+                    <StackPanel Grid.Row="1" local:SpacingHelper.Spacing="10">
+                        <TextBlock
+                            Style="{DynamicResource TitleLargeTextBlockStyle}"
+                            Text="InfoBar"
+                            TextAlignment="Center" />
+                        <TextBlock
+                            FontSize="18"
+                            Text="Один в одинн как в WinUI 3, в зависимости от ширины и длины текста может иметь два шаблона: Title и Message в одну строчку и в 2"
+                            TextAlignment="Center"
+                            TextWrapping="WrapWithOverflow" />
                         <ui:InfoBar
                             Title="Severity: Success"
+                            MaxWidth="400"
+                            IsOpen="True"
+                            Message="Operation completed successfully. All tests passed without any issues."
+                            Severity="Success" />
+                        <ui:InfoBar
+                            Title="Severity: Success"
+                            MaxWidth="700"
                             IsOpen="True"
                             Message="Operation completed successfully. All tests passed without any issues."
                             Severity="Success" />
 
                         <ui:InfoBar
                             Title="Severity: Informational"
+                            MaxWidth="400"
+                            IsOpen="True"
+                            Message="This is an informational message providing detailed insights into the current operation and status."
+                            Severity="Informational" />
+                        <ui:InfoBar
+                            Title="Severity: Informational"
+                            MaxWidth="700"
                             IsOpen="True"
                             Message="This is an informational message providing detailed insights into the current operation and status."
                             Severity="Informational" />
 
                         <ui:InfoBar
                             Title="Severity: Warning"
+                            MaxWidth="400"
+                            IsOpen="True"
+                            Message="Warning! Potential risks were detected. Please review the details carefully before proceeding."
+                            Severity="Warning" />
+                        <ui:InfoBar
+                            Title="Severity: Warning"
+                            MaxWidth="700"
                             IsOpen="True"
                             Message="Warning! Potential risks were detected. Please review the details carefully before proceeding."
                             Severity="Warning" />
 
                         <ui:InfoBar
                             Title="Severity: Error"
+                            MaxWidth="400"
+                            IsOpen="True"
+                            Message="Error encountered while processing the data. Please check your configuration and try again."
+                            Severity="Error" />
+                        <ui:InfoBar
+                            Title="Severity: Error"
+                            MaxWidth="700"
                             IsOpen="True"
                             Message="Error encountered while processing the data. Please check your configuration and try again."
                             Severity="Error" />
                     </StackPanel>
 
-                    <local:RoundImage
+                    <StackPanel
                         Grid.Row="2"
-                        Width="360"
-                        Height="180"
-                        CornerRadius="10"
-                        ImageSource="/Assets/er.jpg"
-                        Stretch="UniformToFill" />
+                        HorizontalAlignment="Center"
+                        local:SpacingHelper.Spacing="10">
+                        <TextBlock Style="{DynamicResource TitleLargeTextBlockStyle}" Text="Взаимодействие с пользователем" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center">Диалоговое окно внутри приложения:</TextBlock>
+                            <Button
+                                Margin="10,0,0,0"
+                                Click="Button_Click"
+                                Content="ContentDialog" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center">Аналог MessageBox:</TextBlock>
+                            <Button
+                                Margin="10,0,0,0"
+                                Click="Button_Click_1"
+                                Content="MessageBox" />
+                        </StackPanel>
+                    </StackPanel>
                 </Grid>
             </ScrollViewer>
         </Grid>

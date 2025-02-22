@@ -30,32 +30,138 @@ public partial class MainWindow : FluentWindow
         );
     }
 
-    private void DestroyUSAButton_Click(object sender, RoutedEventArgs e)
-    {
-        System.Windows.MessageBox.Show("jfldsjlfdsjl");
-    }
-
     private async void Button_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new ContentDialog(RootContentDialogPresenter)
         {
-            Title = "Диалоговое окно",
-            Content = "Это содержимое диалога, который появляется поверх всего.",
+            Title = "Вариант 1: Только кнопка закрытия",
+            Content = "Это диалог с единственной кнопкой 'Закрыть'.",
             CloseButtonText = "Закрыть",
             OverridesDefaultStyle = true,
         };
 
-
         dialog.CloseButtonAppearance = ControlAppearance.Secondary;
         await dialog.ShowAsync();
 
-        var s = new Wpf.Ui.Controls.MessageBox();
+        dialog = new ContentDialog(RootContentDialogPresenter)
+        {
+            Title = "Вариант 2: Кнопки ОК и Отмена",
+            Content = "Это диалог с кнопкой подтверждения и кнопкой закрытия.",
+            PrimaryButtonText = "ОК",
+            CloseButtonText = "Отмена",
+            OverridesDefaultStyle = true,
+        };
 
-        s.CloseButtonAppearance = ControlAppearance.Primary;
-        s.Content = "ОАДВОАДВОДАВОДА";
-        s.Title = "fsdfsdf";
-        s.CloseButtonText = "Закройся";
-        await s.ShowDialogAsync();
+        dialog.PrimaryButtonAppearance = ControlAppearance.Primary;
+        dialog.CloseButtonAppearance = ControlAppearance.Secondary;
+        var result = await dialog.ShowAsync();
+
+        // Обработка результата нажатия:
+        if (result == ContentDialogResult.Primary)
+        {
+            // Пользователь нажал "ОК"
+        }
+        else
+        {
+            // Пользователь нажал "Отмена" или закрыл диалог другим способом
+        }
+
+        dialog = new ContentDialog(RootContentDialogPresenter)
+        {
+            Title = "Вариант 3: Три кнопки",
+            Content = "Это диалог с тремя кнопками: 'Сохранить', 'Не сохранять' и 'Отмена'.",
+            PrimaryButtonText = "Сохранить",
+            SecondaryButtonText = "Не сохранять",
+            CloseButtonText = "Отмена",
+            OverridesDefaultStyle = true,
+        };
+
+        dialog.PrimaryButtonAppearance = ControlAppearance.Primary;
+        dialog.SecondaryButtonAppearance = ControlAppearance.Secondary;
+        dialog.CloseButtonAppearance = ControlAppearance.Secondary;
+        result = await dialog.ShowAsync();
+
+        // Обработка результата:
+        if (result == ContentDialogResult.Primary)
+        {
+            // Нажата кнопка "Сохранить"
+        }
+        else if (result == ContentDialogResult.Secondary)
+        {
+            // Нажата кнопка "Не сохранять"
+        }
+        else
+        {
+            // Нажата кнопка "Отмена" или диалог закрыт другим способом
+        }
+
+
+        // Создаём набор UI-элементов для содержимого диалога
+        var stackPanel = new StackPanel
+        {
+            Width = 400,
+            Margin = new Thickness(10)
+        };
+
+        var instructionText = new Wpf.Ui.Controls.TextBlock
+        {
+            Text = "Введите ваше имя:",
+            Margin = new Thickness(0, 0, 0, 10),
+            FontSize = 14
+        };
+
+        var inputTextBox = new Wpf.Ui.Controls.TextBox
+        {
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            Margin = new Thickness(0, 0, 0, 10)
+        };
+
+        var rememberCheckBox = new CheckBox
+        {
+            Content = "Запомнить меня",
+            Margin = new Thickness(-10, 0, 0, 10)
+        };
+
+        // Добавляем элементы в StackPanel
+        stackPanel.Children.Add(instructionText);
+        stackPanel.Children.Add(inputTextBox);
+        stackPanel.Children.Add(rememberCheckBox);
+
+        // Создаем диалог и задаем UI-элементы как содержимое
+        dialog = new ContentDialog(RootContentDialogPresenter)
+        {
+            Title = "Диалог с UI",
+            Content = stackPanel,
+            PrimaryButtonText = "ОК",
+            CloseButtonText = "Отмена",
+            OverridesDefaultStyle = true,
+        };
+
+        dialog.PrimaryButtonAppearance = ControlAppearance.Primary;
+        dialog.CloseButtonAppearance = ControlAppearance.Secondary;
+
+        // Отображаем диалог
+        result = await dialog.ShowAsync();
+
+        // Обработка результата
+        if (result == ContentDialogResult.Primary)
+        {
+            // Здесь можно получить введенное имя, например:
+            string enteredName = inputTextBox.Text;
+            bool remember = rememberCheckBox.IsChecked ?? false;
+            // Дополнительная логика...
+        }
+    }
+
+    private async void Button_Click_1(object sender, RoutedEventArgs e)
+    {
+        var mb = new Wpf.Ui.Controls.MessageBox();
+        mb.CloseButtonAppearance = ControlAppearance.Primary;
+        mb.Content = "Содержимое (Content)";
+        mb.Title = "Заголовок (Title)";
+        mb.CloseButtonText = "Закрыть";
+        mb.SecondaryButtonText = "Вторичная кнопка";
+        await mb.ShowDialogAsync();
     }
 }
 
@@ -154,7 +260,6 @@ public static class GridSpacingHelper
     {
         if (d is Grid grid)
         {
-            // Подписываемся на события, чтобы обновлять отступы при загрузке и изменении разметки грида
             grid.Loaded += (s, args) => UpdateChildrenMargins(grid);
             grid.LayoutUpdated += (s, args) => UpdateChildrenMargins(grid);
         }
@@ -172,8 +277,6 @@ public static class GridSpacingHelper
                 int col = Grid.GetColumn(child);
                 int row = Grid.GetRow(child);
 
-                // Устанавливаем отступ только для тех элементов, которые не находятся
-                // в первой строке или первом столбце – таким образом отступы появляются ТОЛЬКО между элементами.
                 Thickness margin = new Thickness();
 
                 if (row > 0)
@@ -190,7 +293,6 @@ public static class GridSpacingHelper
         }
     }
 }
-
 
 
 public static class ButtonXamlDisplayBehavior
