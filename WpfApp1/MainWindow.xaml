@@ -1,0 +1,85 @@
+﻿<ui:FluentWindow
+    x:Class="WpfApp1.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfApp1"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="MainWindow"
+    Width="1000"
+    Height="400"
+    Background="Transparent"
+    ExtendsContentIntoTitleBar="True"
+    mc:Ignorable="d">
+    <Grid
+        x:Name="Root"
+        Margin="10,0,10,10"
+        Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Title="Абоба и бобка" Grid.Row="0" />
+        <!--<StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Background="Transparent"
+            Orientation="Vertical">
+            <TextBlock>Привет всем абобусам и бибам</TextBlock>
+            <ui:Button
+                x:Name="DestroyUSAButton"
+                Margin="0,10,0,0"
+                Appearance="Primary"
+                Click="DestroyUSAButton_Click">
+                уничтожит амэрику
+            </ui:Button>
+            <ui:DropDownButton Content="Hello" Icon="{ui:SymbolIcon Fluent24}">
+                <ui:DropDownButton.Flyout>
+                    <ContextMenu>
+                        <MenuItem Header="Add" />
+                        <MenuItem Header="Remove" />
+                        <MenuItem Header="Send" />
+                        <MenuItem Header="Hello" />
+                    </ContextMenu>
+                </ui:DropDownButton.Flyout>
+            </ui:DropDownButton>
+
+            <ui:Anchor />
+        </StackPanel>-->
+        <StackPanel Grid.Row="1">
+            <ui:Button Margin="0,10,0,0" Appearance="Primary">
+                <TextBlock FontSize="26" FontWeight="SemiBold">УНИничтожит амэрику</TextBlock>
+            </ui:Button>
+            <ui:Button Margin="0,10,0,0" Appearance="Caution">
+                уничтожит амэрику
+            </ui:Button>
+            <ui:Button Margin="0,10,0,0" Appearance="Danger">
+                уничтожит амэрику
+            </ui:Button>
+            <ui:Button Margin="0,10,0,0" Appearance="Dark">
+                уничтожит амэрику
+            </ui:Button>
+            <ui:Button Margin="0,10,0,0" Appearance="Info">
+                уничтожит амэрику
+            </ui:Button>
+            <ui:Button Margin="0,10,0,0" Appearance="Light">
+                уничтожит амэрику
+            </ui:Button>
+            <ui:Button Margin="0,10,0,0" Appearance="Secondary">
+                уничтожит амэрику
+            </ui:Button>
+            <ui:Button Margin="0,10,0,0" Appearance="Success">
+                уничтожит амэрику
+            </ui:Button>
+            <ui:Button Margin="0,10,0,0" Appearance="Transparent">
+                уничтожит амэрику
+            </ui:Button>
+        </StackPanel>
+
+    </Grid>
+</ui:FluentWindow>
