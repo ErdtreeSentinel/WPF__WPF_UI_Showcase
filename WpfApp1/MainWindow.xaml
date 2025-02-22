@@ -5,81 +5,122 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WpfApp1"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="MainWindow"
-    Width="1000"
-    Height="400"
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
     mc:Ignorable="d">
-    <Grid
-        x:Name="Root"
-        Margin="10,0,10,10"
-        Background="Transparent">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
+    <ui:FluentWindow.Resources>
+        <!--  Получаем все значения перечисления ControlAppearance  -->
+        <ObjectDataProvider
+            x:Key="ControlAppearanceValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ui:ControlAppearance" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </ui:FluentWindow.Resources>
+    <!--  Корневой контейнер, состоящий из основного контента и диалог-хоста  -->
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ui:TitleBar Title="Абоба и бобка" Grid.Row="0" />
 
-        <ui:TitleBar Title="Абоба и бобка" Grid.Row="0" />
-        <!--<StackPanel
-            Grid.Row="1"
-            Grid.Column="0"
-            Background="Transparent"
-            Orientation="Vertical">
-            <TextBlock>Привет всем абобусам и бибам</TextBlock>
-            <ui:Button
-                x:Name="DestroyUSAButton"
-                Margin="0,10,0,0"
-                Appearance="Primary"
-                Click="DestroyUSAButton_Click">
-                уничтожит амэрику
-            </ui:Button>
-            <ui:DropDownButton Content="Hello" Icon="{ui:SymbolIcon Fluent24}">
-                <ui:DropDownButton.Flyout>
-                    <ContextMenu>
-                        <MenuItem Header="Add" />
-                        <MenuItem Header="Remove" />
-                        <MenuItem Header="Send" />
-                        <MenuItem Header="Hello" />
-                    </ContextMenu>
-                </ui:DropDownButton.Flyout>
-            </ui:DropDownButton>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <Grid
+                    x:Name="Root"
+                    Margin="50,0,50,50"
+                    local:GridSpacingHelper.RowSpacing="100"
+                    Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
 
-            <ui:Anchor />
-        </StackPanel>-->
-        <StackPanel Grid.Row="1">
-            <ui:Button Margin="0,10,0,0" Appearance="Primary">
-                <TextBlock FontSize="26" FontWeight="SemiBold">УНИничтожит амэрику</TextBlock>
-            </ui:Button>
-            <ui:Button Margin="0,10,0,0" Appearance="Caution">
-                уничтожит амэрику
-            </ui:Button>
-            <ui:Button Margin="0,10,0,0" Appearance="Danger">
-                уничтожит амэрику
-            </ui:Button>
-            <ui:Button Margin="0,10,0,0" Appearance="Dark">
-                уничтожит амэрику
-            </ui:Button>
-            <ui:Button Margin="0,10,0,0" Appearance="Info">
-                уничтожит амэрику
-            </ui:Button>
-            <ui:Button Margin="0,10,0,0" Appearance="Light">
-                уничтожит амэрику
-            </ui:Button>
-            <ui:Button Margin="0,10,0,0" Appearance="Secondary">
-                уничтожит амэрику
-            </ui:Button>
-            <ui:Button Margin="0,10,0,0" Appearance="Success">
-                уничтожит амэрику
-            </ui:Button>
-            <ui:Button Margin="0,10,0,0" Appearance="Transparent">
-                уничтожит амэрику
-            </ui:Button>
-        </StackPanel>
+                    </Grid.RowDefinitions>
 
+                    <StackPanel
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        local:SpacingHelper.Spacing="10">
+                        <TextBlock Style="{DynamicResource TitleLargeTextBlockStyle}" Text="Кнопки WPF-UI" />
+                        <TextBlock Style="{DynamicResource TitleTextBlockStyle}" Text="Обычные" />
+                        <ItemsControl ItemsSource="{Binding Source={StaticResource ControlAppearanceValues}}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel local:SpacingHelper.Spacing="10" Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:Button
+                                            MinWidth="100"
+                                            local:ButtonXamlDisplayBehavior.ShowXamlOnClick="True"
+                                            Appearance="{Binding}"
+                                            Content="{Binding}" />
+                                        <ui:Button
+                                            MinWidth="100"
+                                            Margin="10,0,0,0"
+                                            local:ButtonXamlDisplayBehavior.ShowXamlOnClick="True"
+                                            Appearance="{Binding}"
+                                            Content="{Binding}"
+                                            IsEnabled="False" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button Click="Button_Click" Content="Show Dialog" />
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Row="1"
+                        Margin="50,0,50,0"
+                        local:SpacingHelper.Spacing="10">
+                        <ui:InfoBar
+                            Title="Severity: Success"
+                            IsOpen="True"
+                            Message="Operation completed successfully. All tests passed without any issues."
+                            Severity="Success" />
+
+                        <ui:InfoBar
+                            Title="Severity: Informational"
+                            IsOpen="True"
+                            Message="This is an informational message providing detailed insights into the current operation and status."
+                            Severity="Informational" />
+
+                        <ui:InfoBar
+                            Title="Severity: Warning"
+                            IsOpen="True"
+                            Message="Warning! Potential risks were detected. Please review the details carefully before proceeding."
+                            Severity="Warning" />
+
+                        <ui:InfoBar
+                            Title="Severity: Error"
+                            IsOpen="True"
+                            Message="Error encountered while processing the data. Please check your configuration and try again."
+                            Severity="Error" />
+                    </StackPanel>
+
+                    <local:RoundImage
+                        Grid.Row="2"
+                        Width="360"
+                        Height="180"
+                        CornerRadius="10"
+                        ImageSource="/Assets/er.jpg"
+                        Stretch="UniformToFill" />
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+        <ContentPresenter
+            x:Name="RootContentDialogPresenter"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Panel.ZIndex="1000" />
     </Grid>
 </ui:FluentWindow>
